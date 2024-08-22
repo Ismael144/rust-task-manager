@@ -103,9 +103,28 @@ async fn update_task(task_id: Path<u32>, task: web::Json<models::Task>) -> impl 
     HttpResponse::Ok().body(serde_json::to_string(&status_hash_map).unwrap())
 }
 
+fn get_port() -> u16 {
+    let args = std::env::args().collect::<Vec<String>>();
+
+    let port_number: u16 = match args.get(1) {
+        Some(port_num_str) => {
+            let port_num: u16 = port_num_str.parse::<u16>().unwrap_or_else(|_| 80); 
+
+            if port_num < 80 {
+                80
+            } else {
+                port_num
+            }
+        }, 
+        None => 80
+    };
+
+    port_number
+}
+
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    println!("Server started on 127.0.0.1:80");
+async fn main() -> std::io::Result<()> { 
+    println!("Server started on 127.0.0.1:{}", get_port());
     HttpServer::new(|| {
         // Setting up cors 
         let cors = Cors::default()
@@ -124,7 +143,7 @@ async fn main() -> std::io::Result<()> {
             .service(toggle_task_complete)
             .service(undo_task)
     })
-    .bind(("127.0.0.1", 80))?
+    .bind(("127.0.0.1", get_port()))?
     .run()
     .await
 }
