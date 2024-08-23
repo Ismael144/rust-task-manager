@@ -1,6 +1,6 @@
 # Rust Based Task Manager
 
-This is a simple rust based task manager built in [actix_web](https://crates.io/crates/actix-web) and [rusqlite](https://crates.io/crates/rusqlite)
+This is a simple rust based task manager built in [actix web](https://crates.io/crates/actix-web) and [rusqlite](https://crates.io/crates/rusqlite)
 
 To start it, you need to run
 
@@ -8,7 +8,7 @@ To start it, you need to run
 cargo build
 ```
 
-After It building, you run
+After It building, you run, you can also change to put of your choice
 ```bash 
-cargo run
+cargo run -- 5000
 ```
